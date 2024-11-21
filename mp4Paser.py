@@ -35,7 +35,7 @@ def image_parser(video_path: str, fps: int):
 
 
 def main():
-    print("please input the path of the vedio")
+    print("please input the path of the video")
     video_path = input()
     print("please input the fps you want")
     fps = int(input())
