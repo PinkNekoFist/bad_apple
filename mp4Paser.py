@@ -40,7 +40,7 @@ def main():
     print("please input the fps you want")
     fps = int(input())
     frame_count = image_parser(video_path, fps)
-    ascii_arts = []
+    ascii_arts: list[str] = []
     for i in range(0, int(frame_count/fps)):
         frame_path = os.path.join('output_frames', f'{i*fps:04d}.png')
         ascii_art = ascii_parser(frame_path)
@@ -55,7 +55,7 @@ def ascii_parser(img_path: str):
     ascii_art = ASCII_CHARS[(np.array(img) / 255 * (len(ASCII_CHARS) - 1)).astype(int)]
     return "\n".join("".join(row) for row in ascii_art)
 
-def display_ascii_arts(stdscr, ascii_arts, fps):
+def display_ascii_arts(stdscr: curses.window, ascii_arts: list[str], fps: int):
     stdscr.clear()
     for ascii_art in ascii_arts:
         stdscr.clear()
