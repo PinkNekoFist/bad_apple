@@ -8,7 +8,7 @@ import os
 ASCII_CHARS = np.array(list(" .,-~:;=!*#$@"))
 IMG_WIDTH = 50
 
-def image_parser(video_path: str, fps: int):
+def image_parser(video_path: str, frame_rate: int):
     output_dir = 'output_frames'
     os.makedirs(output_dir, exist_ok=True)
     ascii_arts = []
@@ -21,7 +21,7 @@ def image_parser(video_path: str, fps: int):
         if not ret:
             break
 
-        if frame_count % int(fps / 60) == 0:
+        if frame_count % frame_rate == 0:
             frame_path = os.path.join(output_dir, f'{frame_count:04d}.png')
             cv2.imwrite(frame_path, frame)
             # ascii_art = ascii_parser(frame)
@@ -40,7 +40,7 @@ def main():
     print("please input the fps you want")
     fps = min(int(input()), 60)
     frame_rate = int(60 / fps)
-    frame_count = image_parser(video_path, fps)
+    frame_count = image_parser(video_path, frame_rate)
     ascii_arts = []
     for i in range(0, int(frame_count/frame_rate)):
         frame_path = os.path.join('output_frames', f'{i*frame_rate:04d}.png')
@@ -62,7 +62,7 @@ def display_ascii_arts(stdscr, ascii_arts, fps, frame_rate):
         stdscr.clear()
         stdscr.addstr(0, 0, ascii_art)
         stdscr.refresh()
-        time.sleep(1 / frame_rate)
+        time.sleep(1 / fps)
 
 if __name__ == "__main__":
     main()
