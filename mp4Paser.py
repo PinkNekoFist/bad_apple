@@ -41,13 +41,13 @@ def main():
     fps = min(int(input()), 60)
     frame_rate = int(60 / fps)
     frame_count = extract_frame(video_path, frame_rate)
-    ascii_arts = list[str] = []
+    ascii_arts: list[str] = []
     for i in range(0, int(frame_count/frame_rate)):
         frame_path = os.path.join('output_frames', f'{i*frame_rate:04d}.png')
         ascii_art = ascii_generator(frame_path)
         ascii_arts.append(ascii_art)
 
-    curses.wrapper(display_ascii_arts, ascii_arts, fps, frame_rate)
+    curses.wrapper(display_ascii_arts, ascii_arts, fps)
 
 
 def ascii_generator(img_path: str):
