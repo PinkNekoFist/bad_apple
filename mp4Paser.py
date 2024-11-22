@@ -41,7 +41,7 @@ def main():
     fps = min(int(input()), 60)
     frame_rate = int(60 / fps)
     frame_count = image_parser(video_path, frame_rate)
-    ascii_arts = []
+    ascii_arts = list[str] = []
     for i in range(0, int(frame_count/frame_rate)):
         frame_path = os.path.join('output_frames', f'{i*frame_rate:04d}.png')
         ascii_art = ascii_parser(frame_path)
@@ -56,7 +56,7 @@ def ascii_parser(img_path: str):
     ascii_art = ASCII_CHARS[(np.array(img) / 255 * (len(ASCII_CHARS) - 1)).astype(int)]
     return "\n".join("".join(row) for row in ascii_art)
 
-def display_ascii_arts(stdscr, ascii_arts, fps, frame_rate):
+def display_ascii_arts(stdscr: curses.window, ascii_arts: list[str], fps: int):
     stdscr.clear()
     for ascii_art in ascii_arts:
         stdscr.clear()
