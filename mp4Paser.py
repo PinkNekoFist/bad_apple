@@ -28,10 +28,15 @@ def extract_frame(video_path: str, frame_rate: int):
 
 
 def main():
+    global ASCII_CHARS
     print("please input the path of the video")
     video_path = input()
     print("please input the fps you want")
     fps = min(int(input()), 60)
+    print("color reverse? (y/n)")
+    color_reverse = input() == 'y'
+    if color_reverse:
+        ASCII_CHARS = ASCII_CHARS[::-1]
     frame_rate = int(60 / fps)
     frame_count = extract_frame(video_path, frame_rate)
     ascii_arts: list[str] = []
