@@ -11,22 +11,15 @@ IMG_WIDTH = 50
 def extract_frame(video_path: str, frame_rate: int):
     output_dir = 'output_frames'
     os.makedirs(output_dir, exist_ok=True)
-    ascii_arts = []
-
     cap = cv2.VideoCapture(video_path)
-
     frame_count = 0
     while True:
         ret, frame = cap.read()
         if not ret:
             break
-
         if frame_count % frame_rate == 0:
             frame_path = os.path.join(output_dir, f'{frame_count:04d}.png')
             cv2.imwrite(frame_path, frame)
-            # ascii_art = ascii_parser(frame)
-            # ascii_arts.append(ascii_art)
-        
         frame_count += 1
 
     cap.release()
