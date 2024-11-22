@@ -8,7 +8,7 @@ import os
 ASCII_CHARS = np.array(list(" .,-~:;=!*#$@"))
 IMG_WIDTH = 50
 
-def image_parser(video_path: str, frame_rate: int):
+def extract_frame(video_path: str, frame_rate: int):
     output_dir = 'output_frames'
     os.makedirs(output_dir, exist_ok=True)
     ascii_arts = []
@@ -40,17 +40,17 @@ def main():
     print("please input the fps you want")
     fps = min(int(input()), 60)
     frame_rate = int(60 / fps)
-    frame_count = image_parser(video_path, frame_rate)
+    frame_count = extract_frame(video_path, frame_rate)
     ascii_arts = list[str] = []
     for i in range(0, int(frame_count/frame_rate)):
         frame_path = os.path.join('output_frames', f'{i*frame_rate:04d}.png')
-        ascii_art = ascii_parser(frame_path)
+        ascii_art = ascii_generator(frame_path)
         ascii_arts.append(ascii_art)
 
     curses.wrapper(display_ascii_arts, ascii_arts, fps, frame_rate)
 
 
-def ascii_parser(img_path: str):
+def ascii_generator(img_path: str):
     img = Image.open(img_path).convert("L")
     img = img.resize((IMG_WIDTH * 2, int(IMG_WIDTH * img.height / img.width)))
     ascii_art = ASCII_CHARS[(np.array(img) / 255 * (len(ASCII_CHARS) - 1)).astype(int)]
