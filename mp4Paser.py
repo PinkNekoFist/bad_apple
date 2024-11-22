@@ -8,7 +8,7 @@ import os
 ASCII_CHARS = np.array(list(" .,-~:;=!*#$@"))
 IMG_WIDTH = 50
 
-def image_parser(video_path: str, fps: int):
+def image_parser(video_path: str, frame_rate: int):
     output_dir = 'output_frames'
     os.makedirs(output_dir, exist_ok=True)
     ascii_arts = []
@@ -21,7 +21,7 @@ def image_parser(video_path: str, fps: int):
         if not ret:
             break
 
-        if frame_count % fps == 0:
+        if frame_count % frame_rate == 0:
             frame_path = os.path.join(output_dir, f'{frame_count:04d}.png')
             cv2.imwrite(frame_path, frame)
             # ascii_art = ascii_parser(frame)
@@ -35,18 +35,19 @@ def image_parser(video_path: str, fps: int):
 
 
 def main():
-    print("please input the path of the vedio")
+    print("please input the path of the video")
     video_path = input()
     print("please input the fps you want")
-    fps = int(input())
-    frame_count = image_parser(video_path, fps)
-    ascii_arts: list[str] = []
-    for i in range(0, int(frame_count/fps)):
-        frame_path = os.path.join('output_frames', f'{i*fps:04d}.png')
+    fps = min(int(input()), 60)
+    frame_rate = int(60 / fps)
+    frame_count = image_parser(video_path, frame_rate)
+    ascii_arts = list[str] = []
+    for i in range(0, int(frame_count/frame_rate)):
+        frame_path = os.path.join('output_frames', f'{i*frame_rate:04d}.png')
         ascii_art = ascii_parser(frame_path)
         ascii_arts.append(ascii_art)
 
-    curses.wrapper(display_ascii_arts, ascii_arts, fps)
+    curses.wrapper(display_ascii_arts, ascii_arts, fps, frame_rate)
 
 
 def ascii_parser(img_path: str):
